@@ -1,0 +1,304 @@
+<!-- feito por henrique :) -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Ponto</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <style>
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background-color: #424549;
+        }
+
+        .main {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .calculator {
+            width: 100%;
+        }
+
+        h1, p, span, label {
+            color: white;
+        }
+
+        span.required {
+            color: red;
+        }
+
+        .btn-calculate {
+            width: 100%;
+        }
+
+        .results {
+            margin-top: 20px;
+        }
+
+        .result {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
+
+        .result .title {
+            position: absolute;
+            top: 0;
+        }
+
+        .result .value {
+            font-size: 32px;
+            font-weight: 600;
+        }
+        .result .value.positive {
+            color: #188000;
+        }
+        .result .value.negative {
+            color: #ff0100;
+        }
+
+    </style>
+
+</head>
+<body>
+    
+    <div class="main container">
+
+        <form class="calculator">
+
+            <h1 class="text-center mb-5">Calculadora de Ponto</h1>
+
+            <div class="row">
+
+                <div class="col-12 col-lg-3">
+
+                    <div class="form-group">
+                        <label>Entrada <span class="required">*</span></label>
+                        <input type="time" class="form-control entrance" required>
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-lg-3">
+
+                    <div class="form-group">
+                        <label>Saída Almoço <span class="required">*</span></label>
+                        <input type="time" class="form-control lunch-exit" required>
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-lg-3">
+
+                    <div class="form-group">
+                        <label>Volta Almoço <span class="required">*</span></label>
+                        <input type="time" class="form-control lunch-return" required>
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-lg-3">
+
+                    <div class="form-group">
+                        <label>Saída</label>
+                        <input type="time" class="form-control exit">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-success btn-calculate">Calcular</button>
+
+            <div class="row results">
+
+                <div class="col-12 col-lg-4 result">
+                    <span class="title">Tempo Total</span>
+                    <span class="value total">-</span>
+                </div>
+
+                <div class="col-12 col-lg-4 result">
+                    <span class="title">Tempo Considerado</span>
+                    <span class="value considered">-</span>
+                </div>
+
+                <div class="col-12 col-lg-4 result">
+                    <span class="title">Saldo</span>
+                    <span class="value balance">-</span>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+
+    <script>
+
+        $(() => {
+
+            let $form = $('.calculator');
+            let $results = $form.find('.results');
+
+            let $entrance = $form.find('.entrance');
+            let $lunchExit = $form.find('.lunch-exit');
+            let $lunchReturn = $form.find('.lunch-return');
+            let $exit = $form.find('.exit');
+
+            let $total = $results.find('.total');
+            let $considered = $results.find('.considered');
+            let $balance = $results.find('.balance');
+
+            const workload = 528; //8h e 48min
+
+            $form.on('submit', e => {
+
+                e.preventDefault();
+
+                /* 
+                 * Obter os horarios em minutos
+                 */
+
+                let entrance = calculateMins($entrance.val());
+                let lunchExit = calculateMins($lunchExit.val());
+                let lunchReturn = calculateMins($lunchReturn.val());
+                let exit = calculateMins($exit.val());
+
+                /* 
+                 * Calcular a duração dos períodos
+                 */
+
+                let firstPeriod = lunchExit - entrance;
+                let secondPeriod = 0;
+
+                if (exit >= 0) { //se foi inserido o horario de saída
+                    secondPeriod = exit - lunchReturn;
+
+                } else { //calcular o horário de saída considerando que form feitas as 8h e 48min
+
+                    let remainingTime = (workload-10) - firstPeriod;
+                    secondPeriod = remainingTime;
+                    exit = lunchReturn + remainingTime;
+
+                    $exit.val(getTime(exit, true));
+
+                }
+
+                /* 
+                 * Obter os tempos
+                 */
+
+                let totalTime = firstPeriod + secondPeriod;
+                let consideredTime = 0;
+
+                //verificar se o tempo total esta dentro do período de carência
+                if (totalTime >= (workload-10) && totalTime <= (workload+10)) {
+                    
+                    //tempo considerado será o mesmo que a carga horaria se for 10min a menos ou a mais que ela
+                    consideredTime = workload;
+                    
+                } else {
+                    consideredTime = totalTime;
+                }
+
+                let balance = consideredTime - workload;
+
+                /* 
+                 * Exibir os resultados
+                 */
+
+                $total.text(getTime(totalTime));
+                $considered.text(getTime(consideredTime));
+                $balance.text(getTime(balance));
+
+                if (balance >= 0) {
+                    $balance.removeClass('negative');
+                    $balance.addClass('positive');
+
+                } else {
+                    $balance.removeClass('positive');
+                    $balance.addClass('negative');
+                }
+
+            });
+
+            //converte o horário em minutos
+            function calculateMins(time) {
+
+                if (time) {
+
+                    let parts = time.split(':');
+                    let hours = parseInt(parts[0]);
+                    let minutes = parseInt(parts[1]);
+
+                    if (hours >= 0 && minutes >= 0) {
+
+                        return ((hours*60) + minutes);
+
+                    }
+
+                }
+
+                return -1;
+
+            }
+
+            //converte minutos em horas e minutos
+            function getTime(mins, defaultPattern = false) {
+
+                //obter valor absoluto
+                mins = Math.abs(mins);
+
+                let hours = Math.trunc(mins/60);
+                let minutes = mins%60;
+
+                if (defaultPattern) { //valor no padrão
+                    return String(hours).padStart(2, '0') + ':' + String(minutes).padStart(2, '0');
+
+                } else { //valor por extenso
+
+                    let time = '0min';
+
+                    //se tiver horas
+                    if (hours > 0) {
+                        time = hours + 'h';
+                    }
+
+                    //se tiver minutos
+                    if (minutes > 0) {
+
+                        if (hours > 0) { //se tiver horas e minutos
+                            time += ' e ' + minutes + 'min';
+
+                        } else { //se tiver apenas minutos
+                            time = minutes + 'min';
+                        }
+
+                    }
+
+                    return time;
+
+                }
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
