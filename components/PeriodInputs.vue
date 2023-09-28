@@ -2,10 +2,20 @@
   <div class="flex">
     <div class="flex-1 transition-transform">
       <div>
-        <label
-          >Entrada
-          <span v-if="entranceRequired" class="text-red-600">*</span></label
-        >
+        <div class="flex justify-between items-start mb-1">
+          <label
+            >Entrada
+            <span v-if="entranceRequired" class="text-red-600">*</span></label
+          >
+          <button
+            type="button"
+            class="btn btn-icon btn-outline p-1 text-xs"
+            title="Limpar campo"
+            @click="entrance = ''"
+          >
+            <i class="ri-eraser-line leading-none"></i>
+          </button>
+        </div>
         <input
           type="time"
           :value="entrance"
@@ -13,10 +23,21 @@
           :required="entranceRequired"
         />
       </div>
-      <div class="mt-2">
-        <label
-          >Saída <span v-if="exitRequired" class="text-red-600">*</span></label
-        >
+      <div class="mt-3">
+        <div class="flex justify-between items-start mb-1">
+          <label
+            >Saída
+            <span v-if="exitRequired" class="text-red-600">*</span></label
+          >
+          <button
+            type="button"
+            class="btn btn-icon btn-outline p-1 text-xs"
+            title="Limpar campo"
+            @click="exit = ''"
+          >
+            <i class="ri-eraser-line leading-none"></i>
+          </button>
+        </div>
         <input
           type="time"
           :value="exit"

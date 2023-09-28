@@ -28,9 +28,19 @@
   input[type='time']::-webkit-calendar-picker-indicator {
     @apply invert;
   }
+
+  ::-webkit-scrollbar {
+    @apply w-3 h-3;
+  }
+  ::-webkit-scrollbar-track {
+    @apply hidden;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-lg border-4 border-solid border-blue-950 bg-blue-800 !important;
+  }
 }
 
-@layer utilities {
+@layer components {
   .default-padding {
     @apply py-4 px-5;
   }

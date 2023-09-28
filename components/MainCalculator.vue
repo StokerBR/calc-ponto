@@ -2,7 +2,7 @@
   <div>
     <div class="flex mb-2">
       <div class="flex-1">
-        <h2 class="text-xl font-bold">Pontos</h2>
+        <h2 class="text-xl font-bold">Calcular usando Pontos</h2>
         <p class="text-sm">
           Insira os horários do seus pontos para calcular o tempo.
         </p>
@@ -50,6 +50,7 @@
 
 <script setup>
 import { workload } from '~/constants';
+import calculateConsideredTime from '~/utils/calculateConsideredTime';
 
 const minPeriods = 2;
 const maxPeriods = 4;
@@ -96,8 +97,6 @@ function clearPeriods() {
 function onSubmit(e) {
   e.preventDefault();
 
-  console.log(periods.value);
-
   let worktime = 0;
 
   periods.value.forEach((period, index) => {
@@ -118,17 +117,9 @@ function onSubmit(e) {
     }
   });
 
-  let considered = 0;
+  const considered = calculateConsideredTime(worktime, workload);
 
-  // Verificar se o tempo total esta dentro do período de carência
-  if (worktime >= workload - 10 && worktime <= workload + 10) {
-    // Tempo considerado será o mesmo que a carga horaria se for 10min a menos ou a mais que ela
-    considered = workload;
-  } else {
-    considered = worktime;
-  }
-
-  let calculatedBalance = considered - workload;
+  const calculatedBalance = considered - workload;
 
   totalTime.value = getTimeString(worktime);
   consideredTime.value = getTimeString(considered);

@@ -21,7 +21,7 @@
       <span class="text-md font-semibold">Saldo</span>
       <span
         :class="[
-          'text-2xl font-bold',
+          'text-3xl font-bold',
           { 'text-green-600': balancePositive == true },
           { 'text-red-600': balancePositive == false },
         ]"
