@@ -107,7 +107,7 @@ function onSubmit(event) {
 
     if (entrance.value && !exit.value) {
       // Calcula a saída
-      exitTime = entranceTime + lunchTime + workload - 20;
+      exitTime = entranceTime + lunchTime + workload - 10;
       exit.value = getTimeString(exitTime, true);
     } else if (!entrance.value && exit.value) {
       // Calcula a entrada
@@ -117,6 +117,8 @@ function onSubmit(event) {
 
     worktime = exitTime - entranceTime - lunchTime;
     considered = calculateConsideredTime(worktime, workload);
+
+    console.log(lunchTime, entranceTime, exitTime);
 
     const calculatedBalance = considered - workload;
 
