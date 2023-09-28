@@ -63,21 +63,9 @@ const balancePositive = useState('balancePositive');
 
 // Adiciona os períodos iniciais
 onMounted(() => {
-  /* for (let i = 0; i < minPeriods; i++) {
+  for (let i = 0; i < minPeriods; i++) {
     addPeriod(i);
-  } */
-  periods.value.push({
-    id: 1,
-    entrance: '08:00',
-    exit: '12:00',
-    interval: null,
-  });
-  periods.value.push({
-    id: 2,
-    entrance: '13:00',
-    exit: '',
-    interval: null,
-  });
+  }
 });
 
 // Adiciona um período
