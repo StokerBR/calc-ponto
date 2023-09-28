@@ -8,39 +8,14 @@
       </h1>
 
       <div
-        class="flex gap-2 mt-5 md:w-1/2 w-full border border-b-0 border-blue-800 rounded-t-xl"
+        class="flex gap-2 mt-5 md:w-1/2 w-full border border-b-0 border-blue-800 rounded-t-xl overflow-auto"
       >
-        <div class="border-b border-blue-700 text-slate-400">
-          <ul
-            class="flex flex-wrap -mb-px text-sm font-medium text-center"
-            id="myTab"
-            data-tabs-toggle="#myTabContent"
-            role="tablist"
-          >
-            <li>
-              <button
-                class="text-white inline-block p-4 border-b-2 rounded-t-lg"
-                type="button"
-                role="tab"
-              >
-                Pontos
-              </button>
-            </li>
-            <li>
-              <button
-                class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-slate-100 hover:border-blue-600"
-                type="button"
-                role="tab"
-              >
-                Entrada/Saída
-              </button>
-            </li>
-          </ul>
-        </div>
+        <CalculatorTabs :tabs="tabs" v-model:selectedTab="selectedTab" />
       </div>
       <div class="flex max-md:flex-col mx-auto relative">
         <div class="md:w-1/2 border border-blue-800 md:rounded-bl-xl p-6">
-          <MainCalculator />
+          <MainCalculator v-if="selectedTab == 0" />
+          <EntranceExitCalculator v-if="selectedTab == 1" />
         </div>
         <div
           class="md:w-1/2 border md:border-l-0 border-blue-800 md:rounded-r-xl max-md:rounded-b-xl max-md:border-t-0 p-6"
@@ -54,6 +29,9 @@
 
 <script setup>
 import 'remixicon/fonts/remixicon.css';
+
+const tabs = ['Pontos', 'Entrada/Saída'];
+const selectedTab = ref(0);
 </script>
 
 <style>
