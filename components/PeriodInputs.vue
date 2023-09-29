@@ -11,7 +11,12 @@
             type="button"
             class="btn btn-icon btn-outline p-1 text-xs"
             title="Limpar campo"
-            @click="entrance = ''"
+            @click="
+              () => {
+                entrance = '';
+                $emit('update:entrance', '');
+              }
+            "
           >
             <i class="ri-eraser-line leading-none"></i>
           </button>
@@ -33,7 +38,12 @@
             type="button"
             class="btn btn-icon btn-outline p-1 text-xs"
             title="Limpar campo"
-            @click="exit = ''"
+            @click="
+              () => {
+                exit = '';
+                $emit('update:exit', '');
+              }
+            "
           >
             <i class="ri-eraser-line leading-none"></i>
           </button>
