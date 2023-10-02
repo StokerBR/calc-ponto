@@ -4,7 +4,7 @@
       <div class="flex-1">
         <h2 class="text-xl font-bold">Calcular usando Pontos</h2>
         <p class="text-sm">
-          Insira os horários do seus pontos para calcular o tempo.
+          Insira os horários dos pontos para calcular o tempo.
         </p>
         <!-- <small class="text-xs leading-none"
           >Caso o último ponto de saída não seja inserido, ele será calculado
@@ -71,10 +71,9 @@ for (let i = 0; i < minPeriods; i++) {
 function addPeriod(id = null) {
   if (periods.value.length < maxPeriods) {
     periods.value.push({
-      id: id ?? Date.now(),
+      id: id != null ? id : Date.now(),
       entrance: '',
       exit: '',
-      interval: null,
     });
   }
 }

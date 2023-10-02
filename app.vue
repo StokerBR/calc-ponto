@@ -6,7 +6,6 @@
       >
         CALC PONTO
       </h1>
-
       <div
         class="flex gap-2 mt-5 md:w-1/2 w-full bg-blue-900 border-2 border-b-0 border-blue-800 rounded-t-xl overflow-auto"
         id="tabs"
@@ -27,7 +26,7 @@
         </div>
       </div>
       <p class="text-xs text-center text-slate-400 mt-3">
-        Feito com <span class="text-red-700 text-base">♥</span> por Henrique
+        Feito com <span class="text-red-700 text-sm">♥</span> por Henrique
       </p>
     </div>
   </div>

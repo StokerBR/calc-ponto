@@ -6,24 +6,6 @@
       data-tabs-toggle="#myTabContent"
       role="tablist"
     >
-      <!-- <li>
-        <button
-          class="text-white inline-block p-4 border-b-2 rounded-t-lg"
-          type="button"
-          role="tab"
-        >
-          Pontos
-        </button>
-      </li>
-      <li>
-        <button
-          class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-slate-100 hover:border-blue-600"
-          type="button"
-          role="tab"
-        >
-          Entrada/Saída
-        </button>
-      </li> -->
       <li v-for="(item, index) in tabs" :key="index">
         <button
           :class="[
