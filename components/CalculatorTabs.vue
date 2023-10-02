@@ -1,5 +1,5 @@
 <template>
-  <div class="border-b border-blue-700 text-slate-400">
+  <div class="text-slate-400">
     <ul
       class="flex text-sm font-medium text-center"
       id="myTab"
