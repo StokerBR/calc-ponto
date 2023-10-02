@@ -16,7 +16,7 @@
   }
 
   input {
-    @apply bg-blue-900 text-slate-100 focus-visible:outline-none focus-visible:outline-blue-600 /* focus:bg-blue-800 */ border border-none rounded-md default-padding block w-full appearance-none leading-normal;
+    @apply bg-blue-950/75 text-slate-100 focus-visible:outline-none focus-visible:outline-blue-600 /* focus:bg-blue-800 */ border border-none rounded-md default-padding block w-full appearance-none leading-normal;
   }
 
   input[type='time']::-webkit-datetime-edit-hour-field:focus,
@@ -33,7 +33,7 @@
     @apply w-3 h-3;
   }
   ::-webkit-scrollbar-track {
-    @apply hidden;
+    @apply bg-blue-950;
   }
   ::-webkit-scrollbar-thumb {
     @apply rounded-lg border-4 border-solid border-blue-950 bg-blue-800 !important;

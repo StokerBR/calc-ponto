@@ -63,11 +63,9 @@ const balance = useState('balance');
 const balancePositive = useState('balancePositive');
 
 // Adiciona os períodos iniciais
-onMounted(() => {
-  for (let i = 0; i < minPeriods; i++) {
-    addPeriod(i);
-  }
-});
+for (let i = 0; i < minPeriods; i++) {
+  addPeriod(i);
+}
 
 // Adiciona um período
 function addPeriod(id = null) {
