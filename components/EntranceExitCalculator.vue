@@ -58,6 +58,11 @@
           +30
         </button>
       </div>
+      <Checkbox
+        v-model:checked="shouldSurplus"
+        label="Ganhar minutos"
+        title="Calcular para ganhar minutos no saldo"
+      />
       <PeriodInputs
         v-model:entrance="entrance"
         v-model:exit="exit"
@@ -83,6 +88,7 @@ const balancePositive = useState('balancePositive');
 const lunchTimeAmount = ref(60);
 const entrance = ref('');
 const exit = ref('');
+const shouldSurplus = ref(false);
 
 // Limpa os campos
 function clear() {
@@ -104,21 +110,20 @@ function onSubmit(event) {
 
     let worktime;
     let considered;
+    let surplus = shouldSurplus.value ? 21 : 0;
 
     if (entrance.value && !exit.value) {
       // Calcula a saída
-      exitTime = entranceTime + lunchTime + workload - 10;
+      exitTime = entranceTime + lunchTime + workload - 10 + surplus;
       exit.value = getTimeString(exitTime, true);
     } else if (!entrance.value && exit.value) {
       // Calcula a entrada
-      entranceTime = exitTime - workload - lunchTime + 10;
+      entranceTime = exitTime - workload - lunchTime + 10 + surplus;
       entrance.value = getTimeString(entranceTime, true);
     }
 
     worktime = exitTime - entranceTime - lunchTime;
     considered = calculateConsideredTime(worktime, workload);
-
-    console.log(lunchTime, entranceTime, exitTime);
 
     const calculatedBalance = considered - workload;
 
