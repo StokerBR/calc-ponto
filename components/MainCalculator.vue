@@ -31,6 +31,11 @@
       </div>
     </div>
     <form class="flex flex-col gap-4" @submit="onSubmit">
+      <Checkbox
+        v-model:checked="shouldSurplus"
+        label="Ganhar minutos"
+        title="Calcular para ganhar minutos no saldo"
+      />
       <TransitionGroup name="period">
         <PeriodInputs
           v-for="(period, index) in periods"
@@ -62,6 +67,8 @@ const totalTime = useState('totalTime');
 const balance = useState('balance');
 const balancePositive = useState('balancePositive');
 
+const shouldSurplus = ref(false);
+
 // Adiciona os períodos iniciais
 onMounted(() => {
   for (let i = 0; i < minPeriods; i++) {
@@ -73,7 +80,7 @@ onMounted(() => {
 function addPeriod(id = null) {
   if (periods.value.length < maxPeriods) {
     periods.value.push({
-      id: id != null ? id : Date.now(),
+      id: id != null ? id : randomId(),
       entrance: '',
       exit: '',
     });
@@ -97,6 +104,8 @@ function onSubmit(e) {
   e.preventDefault();
 
   let worktime = 0;
+  let surplus = shouldSurplus.value ? 21 : 0;
+  console.log(surplus);
 
   periods.value.forEach((period, index) => {
     if (period.entrance && period.exit) {
@@ -109,8 +118,8 @@ function onSubmit(e) {
       let remainingTime = workload - 10 - worktime;
       remainingTime = remainingTime < 0 ? 0 : remainingTime;
 
-      worktime += remainingTime;
-      let exit = calculateMins(period.entrance) + remainingTime;
+      worktime += remainingTime + surplus;
+      let exit = calculateMins(period.entrance) + remainingTime + surplus;
 
       period.exit = getTimeString(exit, true);
     }
