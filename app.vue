@@ -16,8 +16,12 @@
         <div
           class="md:w-1/2 bg-blue-900 border-2 border-blue-800 md:rounded-bl-xl p-6"
         >
-          <MainCalculator v-if="selectedTab == 0" />
-          <EntranceExitCalculator v-if="selectedTab == 1" />
+          <keep-alive>
+            <MainCalculator v-if="selectedTab == 0" />
+          </keep-alive>
+          <keep-alive>
+            <EntranceExitCalculator v-if="selectedTab == 1" />
+          </keep-alive>
         </div>
         <div
           class="md:w-1/2 bg-blue-900 border-2 md:border-l-0 border-blue-800 md:rounded-r-xl max-md:rounded-b-xl max-md:border-t-0 p-6"
@@ -43,6 +47,16 @@ onMounted(() => {
   window.document.getElementById('tabs').addEventListener('wheel', (e) => {
     e.preventDefault();
     e.currentTarget.scrollLeft += e.deltaY / 2;
+  });
+
+  // Realiza a troca de tabs com o atalho Shift + [Número da tab]
+  window.addEventListener('keypress', (e) => {
+    if (e.shiftKey && e.code.startsWith('Digit')) {
+      const pressedNumber = Number(e.code.replace('Digit', ''));
+      if (pressedNumber && pressedNumber >= 1 && pressedNumber <= tabs.length) {
+        selectedTab.value = pressedNumber - 1;
+      }
+    }
   });
 });
 </script>
